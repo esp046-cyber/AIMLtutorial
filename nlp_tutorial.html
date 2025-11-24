@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NLP Tutorial: Chatbots & Sentiment Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .step {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .tip {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .tip strong {
+            color: #856404;
+        }
+
+        .example {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            background: #e9ecef;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .tab-button:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .tab-button.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        .icon {
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 Building NLP Applications</h1>
+            <p>A Beginner's Guide to Chatbots & Sentiment Analysis</p>
+        </header>
+
+        <div class="content">
+            <div class="section">
+                <h2><span class="icon">📚</span> What is NLP?</h2>
+                <p><strong>Natural Language Processing (NLP)</strong> is teaching computers to understand human language. Think of it like teaching a robot to read and understand what people say or write.</p>
+                
+                <div class="example">
+                    <strong>Real-world example:</strong> When you ask Siri "What's the weather today?" or when Netflix recommends shows based on reviews, that's NLP in action!
+                </div>
+
+                <p>In this tutorial, we'll build two powerful tools:</p>
+                <ul>
+                    <li><strong>Chatbot:</strong> A program that can have conversations with customers</li>
+                    <li><strong>Sentiment Analysis:</strong> A tool that figures out if customers are happy, sad, or angry from their messages</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">🛠️</span> What You'll Need</h2>
+                
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Python Installed</strong>
+                    <p>Python is the programming language we'll use. Download it from python.org (it's free!)</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Required Libraries</strong>
+                    <p>These are like tool kits that make building NLP easier. Install them by opening your terminal/command prompt and typing:</p>
+                    <div class="code-block">pip install nltk transformers scikit-learn pandas</div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>A Text Editor</strong>
+                    <p>Any code editor works: VS Code, PyCharm, or even Notepad++</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">💬</span> Part 1: Building a Chatbot</h2>
+                
+                <h3>Understanding How Chatbots Work</h3>
+                <p>A chatbot is like a digital assistant that responds to questions. It works in three steps:</p>
+                <ol>
+                    <li><strong>Listen:</strong> Read what the user types</li>
+                    <li><strong>Understand:</strong> Figure out what they want</li>
+                    <li><strong>Respond:</strong> Give a helpful answer</li>
+                </ol>
+
+                <div class="tabs">
+                    <button class="tab-button active" onclick="switchTab('simple-bot')">Simple Chatbot</button>
+                    <button class="tab-button" onclick="switchTab('smart-bot')">Smart AI Chatbot</button>
+                </div>
+
+                <div id="simple-bot" class="tab-content active">
+                    <h3>Option A: Rule-Based Chatbot (Easiest)</h3>
+                    <p>This chatbot uses if-else rules, like a flowchart.</p>
+                    
+                    <div class="code-block"># Simple Customer Service Chatbot
+import re
+
+class SimpleBot:
+    def __init__(self):
+        # Responses for different questions
+        self.responses = {
+            'hello': 'Hello! How can I help you today?',
+            'hours': 'We are open Monday-Friday, 9 AM to 5 PM.',
+            'price': 'Our pricing starts at $29/month. Visit our website for details!',
+            'return': 'You can return items within 30 days for a full refund.',
+            'help': 'I can help with hours, pricing, returns, and more. What do you need?'
+        }
+    
+    def get_response(self, user_input):
+        # Convert to lowercase for easier matching
+        user_input = user_input.lower()
+        
+        # Check for keywords in user's message
+        if 'hello' in user_input or 'hi' in user_input:
+            return self.responses['hello']
+        elif 'hours' in user_input or 'open' in user_input:
+            return self.responses['hours']
+        elif 'price' in user_input or 'cost' in user_input:
+            return self.responses['price']
+        elif 'return' in user_input or 'refund' in user_input:
+            return self.responses['return']
+        else:
+            return "I'm not sure about that. Can you rephrase?"
+
+# Using the chatbot
+bot = SimpleBot()
+print(bot.get_response("What are your hours?"))
+print(bot.get_response("How much does it cost?"))</div>
+
+                    <div class="tip">
+                        <strong>💡 Tip:</strong> Start with a rule-based bot! It's simple and works great for answering common questions like "What are your hours?" or "How do I return something?"
+                    </div>
+                </div>
+
+                <div id="smart-bot" class="tab-content">
+                    <h3>Option B: AI-Powered Chatbot (More Advanced)</h3>
+                    <p>This chatbot uses actual AI to understand context and give smarter answers.</p>
+                    
+                    <div class="code-block"># AI-Powered Chatbot using Transformers
+from transformers import pipeline
+
+class AIBot:
+    def __init__(self):
+        # Load a pre-trained conversational AI model
+        print("Loading AI model... (this takes a minute first time)")
+        self.chatbot = pipeline('conversational', 
+                               model='microsoft/DialoGPT-medium')
+        self.conversation_history = []
+    
+    def chat(self, user_input):
+        # Add user message to history
+        self.conversation_history.append(user_input)
+        
+        # Get AI response
+        response = self.chatbot(user_input)
+        bot_response = response[0]['generated_text']
+        
+        return bot_response
+
+# Using the AI chatbot
+ai_bot = AIBot()
+print(ai_bot.chat("I'm having trouble with my order"))
+print(ai_bot.chat("It hasn't arrived yet"))</div>
+
+                    <div class="tip">
+                        <strong>💡 Tip:</strong> AI chatbots are smarter but need more computer power. They're perfect when you want natural conversations!
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">😊</span> Part 2: Sentiment Analysis</h2>
+                
+                <h3>What is Sentiment Analysis?</h3>
+                <p>Sentiment analysis reads text and determines if it's:</p>
+                <ul>
+                    <li>😊 <strong>Positive:</strong> "I love this product!"</li>
+                    <li>😐 <strong>Neutral:</strong> "The product arrived today."</li>
+                    <li>😞 <strong>Negative:</strong> "This is terrible quality."</li>
+                </ul>
+
+                <div class="tabs">
+                    <button class="tab-button active" onclick="switchTab('basic-sentiment')">Basic Sentiment</button>
+                    <button class="tab-button" onclick="switchTab('advanced-sentiment')">Advanced AI</button>
+                </div>
+
+                <div id="basic-sentiment" class="tab-content active">
+                    <h3>Basic Sentiment Analyzer</h3>
+                    <div class="code-block"># Basic Sentiment Analysis with TextBlob
+from textblob import TextBlob
+
+def analyze_sentiment(text):
+    # Create TextBlob object
+    blob = TextBlob(text)
+    
+    # Get sentiment polarity (-1 to 1)
+    polarity = blob.sentiment.polarity
+    
+    # Classify sentiment
+    if polarity > 0.1:
+        sentiment = "POSITIVE 😊"
+    elif polarity < -0.1:
+        sentiment = "NEGATIVE 😞"
+    else:
+        sentiment = "NEUTRAL 😐"
+    
+    return sentiment, polarity
+
+# Test it out
+reviews = [
+    "This product is amazing! Best purchase ever!",
+    "It's okay, nothing special.",
+    "Terrible service. Very disappointed."
+]
+
+for review in reviews:
+    sentiment, score = analyze_sentiment(review)
+    print(f"Review: {review}")
+    print(f"Sentiment: {sentiment} (Score: {score:.2f})")
+    print("---")</div>
+                </div>
+
+                <div id="advanced-sentiment" class="tab-content">
+                    <h3>AI-Powered Sentiment Analysis</h3>
+                    <div class="code-block"># Advanced Sentiment Analysis with Transformers
+from transformers import pipeline
+
+class SentimentAnalyzer:
+    def __init__(self):
+        # Load pre-trained sentiment model
+        print("Loading sentiment model...")
+        self.analyzer = pipeline('sentiment-analysis',
+                                model='distilbert-base-uncased-finetuned-sst-2-english')
+    
+    def analyze(self, text):
+        result = self.analyzer(text)[0]
+        label = result['label']
+        confidence = result['score'] * 100
+        
+        # Add emoji
+        emoji = "😊" if label == "POSITIVE" else "😞"
+        
+        return f"{emoji} {label} ({confidence:.1f}% confident)"
+
+# Using the analyzer
+analyzer = SentimentAnalyzer()
+
+customer_messages = [
+    "Your customer service is excellent!",
+    "The product broke after one day. Not happy.",
+    "It works fine, meets my needs."
+]
+
+for msg in customer_messages:
+    result = analyzer.analyze(msg)
+    print(f"Message: {msg}")
+    print(f"Result: {result}\n")</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">🚀</span> Part 3: Combining Both for Customer Service</h2>
+                
+                <p>Now let's create a complete system that uses both chatbot and sentiment analysis!</p>
+
+                <div class="code-block"># Complete Customer Service System
+from textblob import TextBlob
+
+class CustomerServiceBot:
+    def __init__(self):
+        self.responses = {
+            'greeting': 'Hello! How can I assist you today?',
+            'hours': 'We are open Monday-Friday, 9 AM to 5 PM.',
+            'return': 'Returns are accepted within 30 days.',
+            'complaint': 'I apologize for the inconvenience. Let me help resolve this.',
+            'thanks': 'You are welcome! Glad I could help!'
+        }
+    
+    def analyze_sentiment(self, text):
+        blob = TextBlob(text)
+        return blob.sentiment.polarity
+    
+    def respond(self, user_input):
+        # Analyze customer's mood
+        sentiment = self.analyze_sentiment(user_input)
+        user_input_lower = user_input.lower()
+        
+        # If customer is upset, prioritize empathy
+        if sentiment < -0.3:
+            response = self.responses['complaint']
+            response += " What specific issue are you experiencing?"
+            emotion = "😞 (Customer seems upset)"
+        
+        # Handle specific queries
+        elif 'hours' in user_input_lower or 'open' in user_input_lower:
+            response = self.responses['hours']
+            emotion = "😊 (Neutral inquiry)"
+        
+        elif 'return' in user_input_lower:
+            response = self.responses['return']
+            emotion = "😐 (Return inquiry)"
+        
+        elif any(word in user_input_lower for word in ['hello', 'hi', 'hey']):
+            response = self.responses['greeting']
+            emotion = "😊 (Friendly greeting)"
+        
+        elif any(word in user_input_lower for word in ['thanks', 'thank you']):
+            response = self.responses['thanks']
+            emotion = "😊 (Happy customer)"
+        
+        else:
+            response = "I understand. Could you provide more details so I can help better?"
+            emotion = "😐 (Need more info)"
+        
+        return response, emotion
+
+# Test the complete system
+bot = CustomerServiceBot()
+
+test_messages = [
+    "Hello! I need some help",
+    "This product is broken and I'm very angry!",
+    "What are your business hours?",
+    "Thank you for your help"
+]
+
+print("=== CUSTOMER SERVICE SYSTEM ===\n")
+for msg in test_messages:
+    response, emotion = bot.respond(msg)
+    print(f"Customer: {msg}")
+    print(f"Emotion: {emotion}")
+    print(f"Bot: {response}\n")
+    print("-" * 50 + "\n")</div>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">📊</span> Part 4: Tracking Customer Satisfaction</h2>
+                
+                <p>Let's analyze multiple customer messages to track overall satisfaction:</p>
+
+                <div class="code-block"># Customer Satisfaction Dashboard
+from textblob import TextBlob
+import statistics
+
+def analyze_customer_feedback(feedback_list):
+    sentiments = []
+    
+    print("=== CUSTOMER FEEDBACK ANALYSIS ===\n")
+    
+    for i, feedback in enumerate(feedback_list, 1):
+        blob = TextBlob(feedback)
+        polarity = blob.sentiment.polarity
+        sentiments.append(polarity)
+        
+        if polarity > 0.1:
+            mood = "😊 POSITIVE"
+        elif polarity < -0.1:
+            mood = "😞 NEGATIVE"
+        else:
+            mood = "😐 NEUTRAL"
+        
+        print(f"{i}. {feedback}")
+        print(f"   Sentiment: {mood} (Score: {polarity:.2f})\n")
+    
+    # Calculate statistics
+    avg_sentiment = statistics.mean(sentiments)
+    positive_count = sum(1 for s in sentiments if s > 0.1)
+    negative_count = sum(1 for s in sentiments if s < -0.1)
+    neutral_count = len(sentiments) - positive_count - negative_count
+    
+    print("=" * 50)
+    print("SUMMARY:")
+    print(f"😊 Positive Reviews: {positive_count}")
+    print(f"😐 Neutral Reviews: {neutral_count}")
+    print(f"😞 Negative Reviews: {negative_count}")
+    print(f"Average Sentiment: {avg_sentiment:.2f}")
+    
+    if avg_sentiment > 0.2:
+        print("✅ Overall: Customers are HAPPY!")
+    elif avg_sentiment < -0.2:
+        print("⚠️ Overall: Customers need attention!")
+    else:
+        print("ℹ️ Overall: Mixed feedback")
+
+# Example customer feedback
+customer_feedback = [
+    "Excellent service! Very helpful staff.",
+    "Product quality is amazing, highly recommend!",
+    "Delivery was a bit slow but item is good.",
+    "Terrible experience, product doesn't work.",
+    "Customer support was quick to respond.",
+    "Not satisfied with the packaging."
+]
+
+analyze_customer_feedback(customer_feedback)</div>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">💎</span> Best Practices & Tips</h2>
+                
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Start Simple</strong>
+                    <p>Begin with rule-based chatbots and basic sentiment analysis. Add AI features later as you learn.</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Train on Your Data</strong>
+                    <p>Collect real customer messages and use them to improve your system. The more examples, the better!</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Handle Edge Cases</strong>
+                    <p>Always have a fallback response like "I didn't understand that. Can you rephrase?" for unexpected inputs.</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <strong>Test Thoroughly</strong>
+                    <p>Try angry messages, happy messages, and confusing messages to see how your system handles them.</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">5</span>
+                    <strong>Monitor Performance</strong>
+                    <p>Keep track of customer satisfaction scores over time. This shows if your AI is actually helping!</p>
+                </div>
+
+                <div class="tip">
+                    <strong>🎯 Pro Tip:</strong> Combine human support with AI. Use the chatbot for simple questions and route complex issues to human agents!
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">🎓</span> Next Steps</h2>
+                
+                <p>Ready to take your NLP skills further? Here's what to learn next:</p>
+                
+                <ul>
+                    <li><strong>Add More Features:</strong> Include order tracking, appointment booking, or product recommendations</li>
+                    <li><strong>Connect to Databases:</strong> Store customer conversations and learn from them</li>
+                    <li><strong>Deploy Online:</strong> Put your chatbot on a website using Flask or FastAPI</li>
+                    <li><strong>Learn More NLP:</strong> Explore named entity recognition, topic modeling, and text summarization</li>
+                    <li><strong>Try Advanced Models:</strong> Experiment with GPT, BERT, and other transformer models</li>
+                </ul>
+
+                <div class="example">
+                    <strong>Challenge Project:</strong> Build a chatbot that analyzes customer sentiment in real-time and automatically escalates angry customers to a human supervisor!
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">🎉</span> Congratulations!</h2>
+                <p>You now understand how to build NLP applications for customer service! You've learned:</p>
+                <ul>
+                    <li>✅ What NLP is and why it matters</li>
+                    <li>✅ How to build both simple and AI-powered chatbots</li>
+                    <li>✅ How to analyze customer sentiment</li>
+                    <li>✅ How to combine both for better customer service</li>
+                    <li>✅ Best practices for real-world applications</li>
+                </ul>
+                
+                <p style="margin-top: 20px;"><strong>Remember:</strong> The best way to learn is by doing. Start with the simple examples, experiment, break things, and build your way up to more complex systems!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabId) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            
+            // Highlight active button
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
