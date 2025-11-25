@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Pipeline Engineering Tutorial</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+
+        h2 {
+            color: #764ba2;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #667eea;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .concept-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 2px solid #e0e0e0;
+        }
+
+        .pipeline-visual {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .pipeline-step {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 150px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .pipeline-step:hover {
+            transform: translateY(-5px);
+        }
+
+        .arrow {
+            font-size: 2em;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .tip-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .tip-box strong {
+            color: #856404;
+        }
+
+        .example-box {
+            background: #d1ecf1;
+            border-left: 5px solid #17a2b8;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        ul, ol {
+            margin-left: 25px;
+            margin-top: 10px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .tool-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #667eea;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .tool-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .tool-card h4 {
+            color: #764ba2;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .pipeline-visual {
+                flex-direction: column;
+            }
+
+            .arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Data Pipeline Engineering</h1>
+        <p class="subtitle">A Beginner's Guide to Building Scalable ETL Processes</p>
+
+        <div class="section">
+            <h2>📚 What is a Data Pipeline?</h2>
+            <div class="concept-box">
+                <p><strong>Think of it like a water pipeline:</strong> Just as water flows from a source, gets filtered and treated, then reaches your home, a data pipeline moves information from various sources, cleans and processes it, then delivers it where it's needed.</p>
+                
+                <p style="margin-top: 15px;"><strong>In simple terms:</strong> A data pipeline is an automated system that takes raw data from different places, transforms it into useful information, and stores it where your AI models or analysts can use it.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔄 What is ETL?</h2>
+            <p>ETL stands for <strong>Extract, Transform, Load</strong> - the three main steps of any data pipeline:</p>
+            
+            <div class="pipeline-visual">
+                <div class="pipeline-step">
+                    <div style="font-size: 2em;">📥</div>
+                    EXTRACT<br>
+                    <small>Get the data</small>
+                </div>
+                <div class="arrow">→</div>
+                <div class="pipeline-step">
+                    <div style="font-size: 2em;">⚙️</div>
+                    TRANSFORM<br>
+                    <small>Clean & process</small>
+                </div>
+                <div class="arrow">→</div>
+                <div class="pipeline-step">
+                    <div style="font-size: 2em;">💾</div>
+                    LOAD<br>
+                    <small>Store for use</small>
+                </div>
+            </div>
+
+            <h3>1. Extract (Getting the Data)</h3>
+            <div class="concept-box">
+                <p>Pull data from various sources like:</p>
+                <ul>
+                    <li><strong>Databases:</strong> MySQL, PostgreSQL, MongoDB</li>
+                    <li><strong>APIs:</strong> Social media, weather services, payment systems</li>
+                    <li><strong>Files:</strong> CSV, JSON, Excel spreadsheets</li>
+                    <li><strong>Streaming data:</strong> Real-time events, sensor data, logs</li>
+                </ul>
+            </div>
+
+            <h3>2. Transform (Cleaning and Processing)</h3>
+            <div class="concept-box">
+                <p>Make the data useful by:</p>
+                <ul>
+                    <li><strong>Cleaning:</strong> Remove duplicates, fix errors, handle missing values</li>
+                    <li><strong>Formatting:</strong> Convert dates, standardize names, change data types</li>
+                    <li><strong>Combining:</strong> Join data from multiple sources</li>
+                    <li><strong>Enriching:</strong> Add calculations, create new features for AI models</li>
+                    <li><strong>Filtering:</strong> Keep only relevant information</li>
+                </ul>
+            </div>
+
+            <h3>3. Load (Storing the Data)</h3>
+            <div class="concept-box">
+                <p>Save processed data to:</p>
+                <ul>
+                    <li><strong>Data Warehouses:</strong> Snowflake, BigQuery, Redshift (for analytics)</li>
+                    <li><strong>Data Lakes:</strong> Amazon S3, Azure Data Lake (for AI training)</li>
+                    <li><strong>Databases:</strong> For applications to use</li>
+                    <li><strong>Feature Stores:</strong> Special databases for AI model features</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🏗️ Step-by-Step: Building Your First Data Pipeline</h2>
+
+            <h3>Step 1: Understand Your Requirements</h3>
+            <div class="concept-box">
+                <p>Ask yourself:</p>
+                <ul>
+                    <li>What data do I need? (customer info, sales, images, etc.)</li>
+                    <li>Where is it coming from?</li>
+                    <li>How often do I need new data? (real-time, hourly, daily)</li>
+                    <li>What will I use it for? (AI training, reports, dashboards)</li>
+                </ul>
+            </div>
+
+            <div class="example-box">
+                <strong>Example Project:</strong> Building a pipeline for an e-commerce recommendation AI
+                <ul>
+                    <li>Data needed: Customer purchases, product views, ratings</li>
+                    <li>Sources: Website database, API logs</li>
+                    <li>Frequency: Every hour</li>
+                    <li>Purpose: Train a product recommendation model</li>
+                </ul>
+            </div>
+
+            <h3>Step 2: Choose Your Tools</h3>
+            <div class="tool-grid">
+                <div class="tool-card">
+                    <h4>Python</h4>
+                    <p>Great for beginners, lots of libraries</p>
+                </div>
+                <div class="tool-card">
+                    <h4>Apache Airflow</h4>
+                    <p>Schedule and monitor pipelines</p>
+                </div>
+                <div class="tool-card">
+                    <h4>Pandas</h4>
+                    <p>Data manipulation in Python</p>
+                </div>
+                <div class="tool-card">
+                    <h4>Apache Spark</h4>
+                    <p>Process huge datasets</p>
+                </div>
+                <div class="tool-card">
+                    <h4>dbt</h4>
+                    <p>Transform data in warehouses</p>
+                </div>
+                <div class="tool-card">
+                    <h4>Docker</h4>
+                    <p>Package your pipeline</p>
+                </div>
+            </div>
+
+            <h3>Step 3: Write Your ETL Code</h3>
+            <p>Here's a simple Python example:</p>
+
+            <div class="code-block">
+<span style="color: #66d9ef;">import</span> pandas <span style="color: #66d9ef;">as</span> pd
+<span style="color: #66d9ef;">import</span> requests
+
+<span style="color: #75715e;"># EXTRACT: Get data from an API</span>
+<span style="color: #66d9ef;">def</span> <span style="color: #a6e22e;">extract_data</span>():
+    response = requests.get(<span style="color: #e6db74;">'https://api.example.com/sales'</span>)
+    data = response.json()
+    <span style="color: #66d9ef;">return</span> pd.DataFrame(data)
+
+<span style="color: #75715e;"># TRANSFORM: Clean and process</span>
+<span style="color: #66d9ef;">def</span> <span style="color: #a6e22e;">transform_data</span>(df):
+    <span style="color: #75715e;"># Remove rows with missing values</span>
+    df = df.dropna()
+    
+    <span style="color: #75715e;"># Convert date strings to datetime</span>
+    df[<span style="color: #e6db74;">'date'</span>] = pd.to_datetime(df[<span style="color: #e6db74;">'date'</span>])
+    
+    <span style="color: #75715e;"># Add a calculated column</span>
+    df[<span style="color: #e6db74;">'total_price'</span>] = df[<span style="color: #e6db74;">'quantity'</span>] * df[<span style="color: #e6db74;">'unit_price'</span>]
+    
+    <span style="color: #66d9ef;">return</span> df
+
+<span style="color: #75715e;"># LOAD: Save to database</span>
+<span style="color: #66d9ef;">def</span> <span style="color: #a6e22e;">load_data</span>(df):
+    df.to_sql(<span style="color: #e6db74;">'sales_data'</span>, con=database_connection, 
+              if_exists=<span style="color: #e6db74;">'append'</span>, index=<span style="color: #66d9ef;">False</span>)
+
+<span style="color: #75715e;"># Run the pipeline</span>
+raw_data = extract_data()
+clean_data = transform_data(raw_data)
+load_data(clean_data)
+            </div>
+
+            <h3>Step 4: Make It Scalable</h3>
+            <div class="concept-box">
+                <p><strong>Scalable</strong> means your pipeline can handle growing amounts of data without breaking. Here's how:</p>
+                
+                <ul>
+                    <li><strong>Process in batches:</strong> Don't load everything at once, work in chunks</li>
+                    <li><strong>Use parallel processing:</strong> Handle multiple tasks simultaneously</li>
+                    <li><strong>Add error handling:</strong> Don't let one failure stop everything</li>
+                    <li><strong>Monitor performance:</strong> Track how long things take</li>
+                    <li><strong>Use cloud services:</strong> Scale up automatically when needed</li>
+                </ul>
+            </div>
+
+            <div class="code-block">
+<span style="color: #75715e;"># Better scalable version with error handling</span>
+<span style="color: #66d9ef;">def</span> <span style="color: #a6e22e;">run_pipeline</span>():
+    <span style="color: #66d9ef;">try</span>:
+        <span style="color: #75715e;"># Extract</span>
+        <span style="color: #66d9ef;">print</span>(<span style="color: #e6db74;">"Starting extraction..."</span>)
+        raw_data = extract_data()
+        
+        <span style="color: #75715e;"># Transform in chunks for large datasets</span>
+        <span style="color: #66d9ef;">print</span>(<span style="color: #e6db74;">"Transforming data..."</span>)
+        chunk_size = <span style="color: #ae81ff;">10000</span>
+        <span style="color: #66d9ef;">for</span> i <span style="color: #66d9ef;">in</span> <span style="color: #a6e22e;">range</span>(<span style="color: #ae81ff;">0</span>, <span style="color: #a6e22e;">len</span>(raw_data), chunk_size):
+            chunk = raw_data[i:i + chunk_size]
+            clean_chunk = transform_data(chunk)
+            load_data(clean_chunk)
+        
+        <span style="color: #66d9ef;">print</span>(<span style="color: #e6db74;">"Pipeline completed successfully!"</span>)
+        
+    <span style="color: #66d9ef;">except</span> <span style="color: #a6e22e;">Exception</span> <span style="color: #66d9ef;">as</span> e:
+        <span style="color: #66d9ef;">print</span>(<span style="color: #e6db74;">f"Pipeline failed: </span><span style="color: #ae81ff;">{e}</span><span style="color: #e6db74;">"</span>)
+        <span style="color: #75715e;"># Send alert to your team</span>
+        send_alert(e)
+            </div>
+
+            <h3>Step 5: Schedule and Automate</h3>
+            <div class="concept-box">
+                <p>Use tools like <strong>Apache Airflow</strong> to run your pipeline automatically:</p>
+                <ul>
+                    <li>Set schedules (every hour, daily, weekly)</li>
+                    <li>Handle dependencies (wait for one task before starting another)</li>
+                    <li>Retry failed tasks automatically</li>
+                    <li>Send notifications when things go wrong</li>
+                </ul>
+            </div>
+
+            <div class="code-block">
+<span style="color: #75715e;"># Simple Airflow DAG (Directed Acyclic Graph)</span>
+<span style="color: #66d9ef;">from</span> airflow <span style="color: #66d9ef;">import</span> DAG
+<span style="color: #66d9ef;">from</span> airflow.operators.python <span style="color: #66d9ef;">import</span> PythonOperator
+<span style="color: #66d9ef;">from</span> datetime <span style="color: #66d9ef;">import</span> datetime
+
+<span style="color: #75715e;"># Define the pipeline schedule</span>
+dag = DAG(
+    <span style="color: #e6db74;">'sales_data_pipeline'</span>,
+    start_date=datetime(<span style="color: #ae81ff;">2024</span>, <span style="color: #ae81ff;">1</span>, <span style="color: #ae81ff;">1</span>),
+    schedule_interval=<span style="color: #e6db74;">'@hourly'</span>  <span style="color: #75715e;"># Run every hour</span>
+)
+
+<span style="color: #75715e;"># Create tasks</span>
+extract_task = PythonOperator(
+    task_id=<span style="color: #e6db74;">'extract'</span>,
+    python_callable=extract_data,
+    dag=dag
+)
+
+transform_task = PythonOperator(
+    task_id=<span style="color: #e6db74;">'transform'</span>,
+    python_callable=transform_data,
+    dag=dag
+)
+
+load_task = PythonOperator(
+    task_id=<span style="color: #e6db74;">'load'</span>,
+    python_callable=load_data,
+    dag=dag
+)
+
+<span style="color: #75715e;"># Set order: extract → transform → load</span>
+extract_task >> transform_task >> load_task
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Best Practices for Data Pipelines</h2>
+
+            <div class="tip-box">
+                <strong>💡 Tip 1: Start Simple</strong><br>
+                Begin with a basic pipeline that works, then add features. Don't try to build everything at once.
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Tip 2: Test With Small Data First</strong><br>
+                Always test your pipeline with a small sample before running on millions of records.
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Tip 3: Log Everything</strong><br>
+                Keep records of what your pipeline does. This helps you debug problems later.
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Tip 4: Make It Idempotent</strong><br>
+                Running your pipeline twice with the same data should give the same result. Avoid duplicate records.
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Tip 5: Monitor and Alert</strong><br>
+                Set up monitoring to know when your pipeline fails or runs slowly.
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Tip 6: Document Your Work</strong><br>
+                Write down what each part of your pipeline does. Your future self will thank you!
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🚀 Common Challenges and Solutions</h2>
+
+            <div class="concept-box">
+                <h3 style="color: #dc3545;">Challenge: Data is too big to process</h3>
+                <p><strong>Solution:</strong> Use distributed processing tools like Apache Spark, or process data in smaller chunks</p>
+            </div>
+
+            <div class="concept-box">
+                <h3 style="color: #dc3545;">Challenge: Pipeline keeps failing</h3>
+                <p><strong>Solution:</strong> Add retry logic, improve error handling, check your data sources are reliable</p>
+            </div>
+
+            <div class="concept-box">
+                <h3 style="color: #dc3545;">Challenge: Data arrives late or incomplete</h3>
+                <p><strong>Solution:</strong> Build in waiting periods, validate data before processing, have fallback options</p>
+            </div>
+
+            <div class="concept-box">
+                <h3 style="color: #dc3545;">Challenge: Pipeline is too slow</h3>
+                <p><strong>Solution:</strong> Optimize your transformations, use parallel processing, add indexes to databases</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎓 Learning Path: What to Study Next</h2>
+            <ol style="font-size: 1.1em;">
+                <li><strong>Learn SQL:</strong> Essential for working with databases</li>
+                <li><strong>Master Python/Pandas:</strong> For data manipulation</li>
+                <li><strong>Study Apache Airflow:</strong> For orchestration</li>
+                <li><strong>Learn Cloud Platforms:</strong> AWS, GCP, or Azure basics</li>
+                <li><strong>Understand Data Modeling:</strong> How to structure data properly</li>
+                <li><strong>Explore Big Data Tools:</strong> Spark, Kafka for large-scale processing</li>
+                <li><strong>Practice Version Control:</strong> Use Git for your code</li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2>✅ Quick Start Checklist</h2>
+            <div class="concept-box">
+                <p>Ready to build your first pipeline? Follow this checklist:</p>
+                <ul style="list-style-type: none;">
+                    <li>☐ Install Python and Pandas</li>
+                    <li>☐ Choose a data source (start with a CSV file or public API)</li>
+                    <li>☐ Write a simple extract function</li>
+                    <li>☐ Add a transform function to clean the data</li>
+                    <li>☐ Create a load function to save results</li>
+                    <li>☐ Test with small data</li>
+                    <li>☐ Add error handling</li>
+                    <li>☐ Set up logging</li>
+                    <li>☐ Schedule with cron or Airflow</li>
+                    <li>☐ Monitor and iterate</li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; padding: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; color: white;">
+            <h2 style="color: white; margin-bottom: 15px;">🎉 You're Ready to Start!</h2>
+            <p style="font-size: 1.2em;">Data pipeline engineering is a valuable skill that combines coding, data management, and system design. Start small, learn continuously, and build amazing things!</p>
+        </div>
+    </div>
+</body>
+</html>
