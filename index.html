@@ -1,22 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AiMLtutorial</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; }
-        h1 { text-align: center; }
+        :root { font-size: 16px; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            line-height: 1.6;
+            background: #fff;
+            color: #222;
+        }
+        h1 {
+            font-size: clamp(2rem, 8vw, 3rem);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        p { font-size: 1.1rem; margin-bottom: 1.5rem; }
         ul { list-style: none; padding: 0; }
-        li { margin: 15px 0; }
-        a { font-size: 1.3em; text-decoration: none; color: #0366d6; }
+        li { margin: 12px 0; }
+        a {
+            font-size: clamp(1.15rem, 4vw, 1.4rem);
+            display: block;
+            padding: 14px 0;
+            text-decoration: none;
+            color: #0366d6;
+            font-weight: 500;
+        }
         a:hover { text-decoration: underline; }
+        @media (max-width: 480px) {
+            body { padding: 16px; margin: 20px auto; }
+        }
     </style>
 </head>
 <body>
     <h1>AiMLtutorial</h1>
     <p>Choose a tutorial:</p>
     <ul>
-        <li><a href="ml_model_tutorial.html">Part 0 custom ML models  (Current)</a></li>
+        <li><a href="ml_model_tutorial.html">Part 0 custom ML models (Current)</a></li>
         <li><a href="gen-ai-tutorial.html">Part 1 – Generative AI solutions</a></li>
         <li><a href="nlp_tutorial.html">Part 2 – NLP applications for customer service!</a></li>
         <li><a href="cv_tutorial.html">Part 3 – Computer Vision Systems</a></li>
