@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictive Analytics Tutorial</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #764ba2;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .step {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #e83e8c;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin: 15px 0;
+        }
+
+        .demo-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin: 10px 5px;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        input, select {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            margin: 5px;
+            width: calc(100% - 20px);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 20px 0;
+        }
+
+        .key-concept {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+            margin: 15px 0;
+        }
+
+        .tip {
+            background: #f1f8e9;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #8bc34a;
+            margin: 15px 0;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        .formula {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-family: 'Times New Roman', serif;
+            font-size: 1.1em;
+            margin: 15px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Predictive Analytics Tutorial</h1>
+            <p class="subtitle">Build Time-Series Models for Sales Forecasting & Risk Assessment</p>
+        </header>
+
+        <div class="content">
+            <!-- Introduction Section -->
+            <div class="section">
+                <h2>📚 What is Predictive Analytics?</h2>
+                <p>Predictive analytics is like having a crystal ball for your business! It uses historical data (past information) to predict future outcomes. Think of it like weather forecasting, but for business data.</p>
+                
+                <div class="key-concept">
+                    <strong>🔑 Key Concept:</strong> Time-series data is information collected over time, like daily sales, monthly revenue, or hourly website traffic. We analyze patterns in this data to predict what happens next.
+                </div>
+
+                <h3>Why Do We Need It?</h3>
+                <ul>
+                    <li><strong>Sales Forecasting:</strong> Predict how much you'll sell next month</li>
+                    <li><strong>Risk Assessment:</strong> Identify potential problems before they happen</li>
+                    <li><strong>Better Planning:</strong> Make smarter business decisions</li>
+                    <li><strong>Resource Management:</strong> Know when to hire more staff or order more inventory</li>
+                </ul>
+            </div>
+
+            <!-- Understanding the Basics -->
+            <div class="section">
+                <h2>🧩 Understanding the Building Blocks</h2>
+                
+                <div class="step">
+                    <h3><span class="step-number">1</span>What is Time-Series Data?</h3>
+                    <p>Time-series data is just numbers collected at regular intervals. Examples:</p>
+                    <ul>
+                        <li>Daily coffee sales: $500, $520, $480, $550...</li>
+                        <li>Monthly website visitors: 1000, 1200, 1150, 1300...</li>
+                        <li>Hourly temperature: 25°C, 26°C, 27°C, 28°C...</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <h3><span class="step-number">2</span>Key Patterns to Look For</h3>
+                    <ul>
+                        <li><strong>Trend:</strong> General direction (going up, down, or staying flat)</li>
+                        <li><strong>Seasonality:</strong> Patterns that repeat (like higher sales in December)</li>
+                        <li><strong>Noise:</strong> Random ups and downs we can't predict</li>
+                    </ul>
+                </div>
+
+                <div class="tip">
+                    <strong>💡 Beginner Tip:</strong> Start by plotting your data on a chart. Just looking at it can reveal patterns your eyes can catch before any fancy math!
+                </div>
+            </div>
+
+            <!-- Step by Step Guide -->
+            <div class="section">
+                <h2>🚀 Step-by-Step Guide to Building Your Model</h2>
+
+                <div class="step">
+                    <h3><span class="step-number">1</span>Collect Your Data</h3>
+                    <p>Gather historical data. The more, the better! Aim for:</p>
+                    <ul>
+                        <li>At least 2 years of data for monthly predictions</li>
+                        <li>At least 3 months for daily predictions</li>
+                        <li>Consistent time intervals (don't skip days!)</li>
+                    </ul>
+                    
+                    <div class="code-block">
+// Example: Your sales data might look like this
+const salesData = [
+    {date: "2024-01-01", sales: 5000},
+    {date: "2024-01-02", sales: 5200},
+    {date: "2024-01-03", sales: 4800},
+    // ... more data
+];
+                    </div>
+                </div>
+
+                <div class="step">
+                    <h3><span class="step-number">2</span>Clean Your Data</h3>
+                    <p>Real-world data is messy! You need to:</p>
+                    <ul>
+                        <li>Remove or fix missing values (like days with no data)</li>
+                        <li>Handle outliers (extremely high or low values that don't make sense)</li>
+                        <li>Make sure dates are in order</li>
+                    </ul>
+                    
+                    <div class="highlight">
+                        <strong>⚠️ Common Mistake:</strong> Don't delete outliers just because they look weird. Sometimes they're real (like Black Friday sales spike). Investigate first!
+                    </div>
+                </div>
+
+                <div class="step">
+                    <h3><span class="step-number">3</span>Choose Your Forecasting Method</h3>
+                    <p>Here are beginner-friendly methods:</p>
+                    
+                    <h4>A) Simple Moving Average (Easiest)</h4>
+                    <p>Take the average of the last few data points. Great for smooth data without big swings.</p>
+                    <div class="formula">
+                        Next Value ≈ (Last Value + Previous Value + Value Before That) ÷ 3
+                    </div>
+                    
+                    <h4>B) Linear Regression (Simple & Powerful)</h4>
+                    <p>Finds the best straight line through your data. Perfect when there's a clear upward or downward trend.</p>
+                    
+                    <h4>C) Exponential Smoothing (Intermediate)</h4>
+                    <p>Gives more weight to recent data. Good for data that changes gradually.</p>
+                </div>
+
+                <div class="step">
+                    <h3><span class="step-number">4</span>Train Your Model</h3>
+                    <p>"Training" means teaching the model using your historical data. Split your data:</p>
+                    <ul>
+                        <li><strong>Training Set (80%):</strong> Used to learn patterns</li>
+                        <li><strong>Testing Set (20%):</strong> Used to check if it works</li>
+                    </ul>
+                    
+                    <div class="code-block">
+// Split data: 80% for training, 20% for testing
+const splitPoint = Math.floor(data.length * 0.8);
+const trainingData = data.slice(0, splitPoint);
+const testingData = data.slice(splitPoint);
+                    </div>
+                </div>
+
+                <div class="step">
+                    <h3><span class="step-number">5</span>Make Predictions</h3>
+                    <p>Use your trained model to predict future values. Start with short-term predictions (next week/month) as they're more accurate.</p>
+                </div>
+
+                <div class="step">
+                    <h3><span class="step-number">6</span>Evaluate Accuracy</h3>
+                    <p>Check how good your predictions are using simple metrics:</p>
+                    <ul>
+                        <li><strong>Mean Absolute Error (MAE):</strong> Average of how far off your predictions were</li>
+                        <li>Lower numbers = Better predictions</li>
+                    </ul>
+                    
+                    <div class="formula">
+                        Error = |Actual Value - Predicted Value|
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Demo -->
+            <div class="section">
+                <h2>🎮 Interactive Demo: Sales Forecasting</h2>
+                <p>Try it yourself! This demo uses a simple moving average to predict sales.</p>
+                
+                <div class="demo-section">
+                    <h3>Enter Your Sales Data</h3>
+                    <label>Enter weekly sales (comma separated, e.g., 1000,1200,1100,1300):</label>
+                    <input type="text" id="salesInput" placeholder="1000,1200,1100,1300,1250,1400" value="1000,1200,1100,1300,1250,1400">
+                    
+                    <label>How many weeks to forecast?</label>
+                    <input type="number" id="forecastWeeks" value="3" min="1" max="10">
+                    
+                    <button onclick="runForecast()">🔮 Predict Future Sales</button>
+                    
+                    <div id="results" style="margin-top: 20px;"></div>
+                    <div class="chart-container">
+                        <canvas id="forecastChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risk Assessment -->
+            <div class="section">
+                <h2>⚠️ Risk Assessment with Predictive Analytics</h2>
+                
+                <div class="step">
+                    <h3><span class="step-number">1</span>What is Risk Assessment?</h3>
+                    <p>It's identifying potential problems before they happen. For example:</p>
+                    <ul>
+                        <li>Will sales drop next month?</li>
+                        <li>Is a customer likely to cancel their subscription?</li>
+                        <li>Will we run out of stock?</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <h3><span class="step-number">2</span>How to Build Risk Models</h3>
+                    <p>Look for warning signs in your data:</p>
+                    <ul>
+                        <li><strong>Declining trends:</strong> Sales going down consistently</li>
+                        <li><strong>Volatility:</strong> Wild swings in numbers</li>
+                        <li><strong>Unusual patterns:</strong> Something that breaks the normal pattern</li>
+                    </ul>
+                </div>
+
+                <div class="demo-section">
+                    <h3>Risk Calculator Demo</h3>
+                    <label>Enter current month sales:</label>
+                    <input type="number" id="currentSales" placeholder="10000" value="10000">
+                    
+                    <label>Enter previous month sales:</label>
+                    <input type="number" id="previousSales" placeholder="12000" value="12000">
+                    
+                    <button onclick="assessRisk()">📊 Assess Risk Level</button>
+                    
+                    <div id="riskResults" style="margin-top: 20px;"></div>
+                </div>
+            </div>
+
+            <!-- Tools and Resources -->
+            <div class="section">
+                <h2>🛠️ Tools You Can Use</h2>
+                
+                <h3>Beginner-Friendly Tools:</h3>
+                <ul>
+                    <li><strong>Excel/Google Sheets:</strong> Built-in forecasting functions. Start here!</li>
+                    <li><strong>Python + Pandas:</strong> Free and powerful. Great for learning.</li>
+                    <li><strong>R Language:</strong> Designed for statistics and predictions.</li>
+                </ul>
+
+                <h3>Python Libraries (Free & Popular):</h3>
+                <div class="code-block">
+# Install these to get started
+pip install pandas        # For data handling
+pip install numpy         # For math calculations
+pip install matplotlib    # For charts
+pip install scikit-learn  # For machine learning models
+                </div>
+
+                <div class="tip">
+                    <strong>💡 Pro Tip:</strong> Start with Excel or Google Sheets. Once comfortable, move to Python for more advanced features!
+                </div>
+            </div>
+
+            <!-- Best Practices -->
+            <div class="section">
+                <h2>✅ Best Practices & Tips</h2>
+                
+                <div class="step">
+                    <strong>1. Start Simple:</strong> Don't jump to complex models. A simple moving average often works surprisingly well!
+                </div>
+
+                <div class="step">
+                    <strong>2. More Data = Better Predictions:</strong> Collect as much historical data as you can.
+                </div>
+
+                <div class="step">
+                    <strong>3. Regular Updates:</strong> Re-train your model monthly with new data.
+                </div>
+
+                <div class="step">
+                    <strong>4. Don't Trust Blindly:</strong> Use predictions as guides, not absolute truth.
+                </div>
+
+                <div class="step">
+                    <strong>5. Visualize Everything:</strong> Charts help you spot patterns and errors quickly.
+                </div>
+
+                <div class="highlight">
+                    <strong>⚠️ Remember:</strong> All models are wrong, but some are useful! No prediction is 100% accurate. The goal is to be more right than wrong.
+                </div>
+            </div>
+
+            <!-- Getting Started Checklist -->
+            <div class="section">
+                <h2>📋 Your Getting Started Checklist</h2>
+                <ul style="list-style: none;">
+                    <li>☐ Collect at least 2 years of historical data</li>
+                    <li>☐ Clean the data (remove errors and fill gaps)</li>
+                    <li>☐ Create a simple line chart to visualize trends</li>
+                    <li>☐ Try a moving average prediction first</li>
+                    <li>☐ Split data: 80% training, 20% testing</li>
+                    <li>☐ Make predictions and compare with actual values</li>
+                    <li>☐ Calculate prediction accuracy</li>
+                    <li>☐ Improve model based on results</li>
+                </ul>
+            </div>
+
+            <!-- Next Steps -->
+            <div class="section">
+                <h2>🎓 Next Steps to Master Predictive Analytics</h2>
+                <ol>
+                    <li>Practice with your own data (sales, website traffic, anything!)</li>
+                    <li>Learn basic Python for more flexibility</li>
+                    <li>Study regression analysis (predicting numbers)</li>
+                    <li>Learn classification (predicting categories like "high risk" vs "low risk")</li>
+                    <li>Explore machine learning libraries like scikit-learn</li>
+                    <li>Take online courses (many free options on YouTube and Coursera)</li>
+                </ol>
+
+                <div class="tip">
+                    <strong>🎯 Remember:</strong> Every expert was once a beginner. Start small, practice regularly, and you'll get there!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let forecastChart = null;
+
+        function runForecast() {
+            const input = document.getElementById('salesInput').value;
+            const weeks = parseInt(document.getElementById('forecastWeeks').value);
+            const salesData = input.split(',').map(x => parseFloat(x.trim())).filter(x => !isNaN(x));
+            
+            if (salesData.length < 3) {
+                document.getElementById('results').innerHTML = '<p style="color: red;">Please enter at least 3 data points!</p>';
+                return;
+            }
+
+            // Simple moving average forecast
+            const windowSize = Math.min(3, salesData.length);
+            const predictions = [];
+            let currentData = [...salesData];
+
+            for (let i = 0; i < weeks; i++) {
+                const lastValues = currentData.slice(-windowSize);
+                const average = lastValues.reduce((a, b) => a + b, 0) / windowSize;
+                predictions.push(Math.round(average));
+                currentData.push(average);
+            }
+
+            // Display results
+            let resultsHTML = '<div style="background: #e8f5e9; padding: 20px; border-radius: 10px; margin: 20px 0;">';
+            resultsHTML += '<h4 style="color: #2e7d32;">📈 Forecast Results:</h4>';
+            resultsHTML += '<p><strong>Historical Data:</strong> ' + salesData.join(', ') + '</p>';
+            resultsHTML += '<p><strong>Predicted Sales for Next ' + weeks + ' Week(s):</strong></p><ul>';
+            
+            predictions.forEach((pred, idx) => {
+                resultsHTML += '<li>Week ' + (salesData.length + idx + 1) + ': $' + pred.toLocaleString() + '</li>';
+            });
+            
+            resultsHTML += '</ul></div>';
+            document.getElementById('results').innerHTML = resultsHTML;
+
+            // Create chart
+            const labels = [];
+            for (let i = 1; i <= salesData.length; i++) {
+                labels.push('Week ' + i);
+            }
+            for (let i = 1; i <= predictions.length; i++) {
+                labels.push('Week ' + (salesData.length + i));
+            }
+
+            const chartData = [...salesData, ...predictions];
+            const colors = salesData.map(() => 'rgba(102, 126, 234, 0.8)').concat(
+                predictions.map(() => 'rgba(118, 75, 162, 0.8)')
+            );
+
+            if (forecastChart) {
+                forecastChart.destroy();
+            }
+
+            const ctx = document.getElementById('forecastChart').getContext('2d');
+            forecastChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Sales',
+                        data: chartData,
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        pointBackgroundColor: colors,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Sales Forecast Chart',
+                            font: { size: 16 }
+                        },
+                        annotation: {
+                            annotations: {
+                                line1: {
+                                    type: 'line',
+                                    xMin: salesData.length - 0.5,
+                                    xMax: salesData.length - 0.5,
+                                    borderColor: 'red',
+                                    borderWidth: 2,
+                                    borderDash: [5, 5],
+                                    label: {
+                                        content: 'Forecast Starts',
+                                        enabled: true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            title: {
+                                display: true,
+                                text: 'Sales ($)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Time Period'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function assessRisk() {
+            const current = parseFloat(document.getElementById('currentSales').value);
+            const previous = parseFloat(document.getElementById('previousSales').value);
+
+            if (isNaN(current) || isNaN(previous)) {
+                document.getElementById('riskResults').innerHTML = '<p style="color: red;">Please enter valid numbers!</p>';
+                return;
+            }
+
+            const percentChange = ((current - previous) / previous) * 100;
+            let riskLevel, riskColor, riskEmoji, recommendation;
+
+            if (percentChange >= -5) {
+                riskLevel = 'LOW RISK';
+                riskColor = '#4caf50';
+                riskEmoji = '✅';
+                recommendation = 'Sales are stable or growing. Keep up the good work!';
+            } else if (percentChange >= -15) {
+                riskLevel = 'MODERATE RISK';
+                riskColor = '#ff9800';
+                riskEmoji = '⚠️';
+                recommendation = 'Sales declining. Review marketing strategy and customer feedback.';
+            } else {
+                riskLevel = 'HIGH RISK';
+                riskColor = '#f44336';
+                riskEmoji = '🚨';
+                recommendation = 'Significant sales drop! Immediate action needed. Consider promotions or product improvements.';
+            }
+
+            const resultsHTML = `
+                <div style="background: white; padding: 25px; border-radius: 10px; border: 3px solid ${riskColor};">
+                    <h3 style="color: ${riskColor};">${riskEmoji} ${riskLevel}</h3>
+                    <p><strong>Sales Change:</strong> ${percentChange.toFixed(2)}%</p>
+                    <p><strong>Current Sales:</strong> $${current.toLocaleString()}</p>
+                    <p><strong>Previous Sales:</strong> $${previous.toLocaleString()}</p>
+                    <p><strong>Difference:</strong> $${(current - previous).toLocaleString()}</p>
+                    <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                        <strong>💡 Recommendation:</strong> ${recommendation}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('riskResults').innerHTML = resultsHTML;
+        }
+    </script>
+</body>
+</html>
